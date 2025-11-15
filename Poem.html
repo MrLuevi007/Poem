@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meri Cute Si Sherni</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --day-bg: #ffe4ec;
+      --day-text: #8d3b55;
+      --line-hover: #ffb3c6;
+      --title: #ab3165;
+      --night-bg: #39162c;
+      --night-text: #ffe4ec;
+      --night-line-hover: #9e4970;
+      --button-bg: #ffb6c1;
+      --heart: #ff6384;
+    }
+    body {
+      background: var(--day-bg);
+      color: var(--day-text);
+      font-family: 'Playfair Display', serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      transition: background 0.7s cubic-bezier(.68,-0.55,.27,1.55);
+    }
+    body.night {
+      background: var(--night-bg);
+      color: var(--night-text);
+    }
+    .container {
+      width: 98%;
+      max-width: 600px;
+      margin: 3.5rem 1rem 2.5rem;
+      background: rgba(255,255,255,0.7);
+      border-radius: 18px;
+      box-shadow: 0 7px 28px -10px #c38cb7;
+      padding: 2.5rem 2rem;
+      transition: background 0.7s;
+    }
+    body.night .container {
+      background: rgba(36,7,41,0.9);
+      box-shadow: 0 7px 28px -10px #630a32;
+    }
+    h1 {
+      text-align: center;
+      font-family: 'Great Vibes', cursive;
+      font-size: 3rem;
+      color: var(--title);
+      margin: 0 0 2rem;
+      letter-spacing: 1.5px;
+      transition: color 0.5s;
+    }
+    body.night h1 {
+      color: #ffb3c6;
+    }
+    .stanza {
+      margin: 1.8rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+    .poem-line {
+      font-size: 1.25rem;
+      padding: 0.5em 0.8em;
+      border-radius: 10px;
+      font-family: 'Playfair Display', serif;
+      background: none;
+      cursor: pointer;
+      transition: color 0.4s, background 0.5s, transform 0.28s cubic-bezier(.51,1.44,.4,1.02);
+      will-change: transform, color, background;
+      text-align: left;
+    }
+    .poem-line:hover {
+      background: var(--line-hover);
+      color: #ab3165;
+      transform: scale(1.055);
+      box-shadow: 0 4px 22px -12px #e78da2;
+      z-index: 2;
+    }
+    body.night .poem-line:hover {
+      background: var(--night-line-hover);
+      color: #ffeaea;
+      box-shadow: 0 4px 18px -10px #ab3165;
+    }
+    .toggle-btn, .heart-btn {
+      background: var(--button-bg);
+      color: #8d3b55;
+      border: 0;
+      border-radius: 50%;
+      padding: 0.71em 0.95em;
+      font-size: 1.3rem;
+      margin: 0 0.7em 0 0;
+      box-shadow: 0 2px 8px -4px #ab3165;
+      cursor: pointer;
+      outline: none;
+      transition: background 0.35s, color 0.3s;
+      position: relative;
+      top: 0;
+    }
+    .toggle-btn:hover {
+      background: #fadadd;
+    }
+    .heart-btn {
+      font-size: 1.6rem;
+      background: var(--heart);
+      color: #fff0f3;
+      margin-right: 0;
+      margin-left: 0.7em;
+      transition: background 0.4s;
+    }
+    .heart-btn:active {
+      background: #ee275f;
+    }
+    .top-bar {
+      width: 100%;
+      text-align: right;
+      margin-top: 1.1em;
+      margin-bottom: 0.2em;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.4em;
+    }
+    /* Heart floating animation */
+    .floating-heart {
+      position: fixed;
+      bottom: 60px;
+      left: 50%;
+      font-size: 2.2rem;
+      color: var(--heart);
+      opacity: 0.88;
+      pointer-events: none;
+      animation: floatheart 2.3s cubic-bezier(0.3,0.8,0.6,1) forwards;
+      z-index: 999;
+      filter: drop-shadow(0px 4px 7px #b85260);
+      will-change: transform, opacity;
+    }
+    @keyframes floatheart {
+      0% { transform: translateX(-50%) scale(0.66) translateY(0) rotate(-18deg);}
+      70% { opacity: 1; }
+      100% { transform: translateX(calc(-50% + var(--hrt-x, 0px))) scale(1.05) translateY(-350px) rotate(24deg); opacity: 0; }
+    }
+    /* Music player styling */
+    .music-player {
+      margin: 2em auto 0.5em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1em;
+    }
+    .music-btn {
+      background: #fff0f5;
+      border: none;
+      border-radius: 17px;
+      padding: 0.45em 1.15em;
+      color: #ab3165;
+      font-size: 1.1rem;
+      font-family: inherit;
+      cursor: pointer;
+      box-shadow: 0 3px 10px -7px #ab3165;
+      transition: background 0.3s, color 0.2s;
+    }
+    .music-btn:hover {
+      background: #ffe4ec;
+      color: #e84796;
+    }
+    .audio-title {
+      font-size: 1rem;
+      color: #ab3165;
+      margin-left: 0.5em;
+      font-family: 'Playfair Display', serif;
+    }
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.4rem 0.7rem;
+      }
+      h1 {font-size: 2.1rem;}
+      .poem-line {font-size: 1.08rem;}
+      .music-player {flex-direction: column;}
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <button class="toggle-btn" id="toggleModeBtn" title="Switch day/night mode">
+      🌙
+    </button>
+    <button class="heart-btn" id="heartBtn" title="Show some love!">❤️</button>
+  </div>
+  <div class="container">
+    <h1>🌸 Meri Cute Si Sherni 🌸</h1>
+    <div class="stanza">
+      <span class="poem-line">Teri hasi mein ek magic hai,</span>
+      <span class="poem-line">Jaise subah ki chai ka first sip — automatic sukoon.</span>
+      <span class="poem-line">Tu hasti hai na… dil aise hilta hai</span>
+      <span class="poem-line">Jaise phone silent pe ho, aur ringtone phir bhi baj jaaye — unexpected moon. 😄💕</span>
+    </div>
+    <div class="stanza">
+      <span class="poem-line">Teri aankhon mein wo innocence hai,</span>
+      <span class="poem-line">Bilkul school ke first crush wali vibe.</span>
+      <span class="poem-line">Par courage aur hardwork ke mamle mein,</span>
+      <span class="poem-line">Tu full-on Iron Lady, koi bhi challenge ho — tu hi tribe. 🔥</span>
+    </div>
+    <div class="stanza">
+      <span class="poem-line">Jab tu care karti hai na…</span>
+      <span class="poem-line">Lagta hai duniya thoda soft ho gaya.</span>
+      <span class="poem-line">Aur jab gussa hota hai…</span>
+      <span class="poem-line">Bas itna cute lagti ho ki banda sorry bolte bolte khud hi pighal gaya. 😅💗</span>
+    </div>
+    <div class="stanza">
+      <span class="poem-line">Teri love ek warm blanket jaisa hai,</span>
+      <span class="poem-line">Jo din ke stress ko swipe-left kar deta.</span>
+      <span class="poem-line">Aur tu jo bolti hai “Main hoon na”…</span>
+      <span class="poem-line">Dil turant refresh ho jaata — bina WiFi ke bhi connect ho jaata. 💞✨</span>
+    </div>
+    <div class="stanza">
+      <span class="poem-line">Meri hardworking, loving, cute si sherni,</span>
+      <span class="poem-line">Tere saath life koi race nahi… ek sweet journey hai.</span>
+      <span class="poem-line">Aur sach bolun — tu sirf beautiful nahi,</span>
+      <span class="poem-line">Tu meri everyday wali khushi, meri favourite feeling, aur meri best poetry hai. ❤️</span>
+    </div>
+    <div style="text-align:right; font-family:'Great Vibes',cursive; font-size:1.2rem; color:#da3665; margin-top:2.1em">~ Yours Buddhu</div>
+    <div class="music-player">
+      <button class="music-btn" id="playPauseBtn">Play</button>
+      <span class="audio-title">Romantic Instrumental</span>
+      <audio id="bgAudio" src="O-Soneya-Rohh-320-Kbps.mp3" preload="auto"></audio>
+    </div>
+  </div>
+  <script>
+    // Day/Night Toggle
+    const toggleBtn = document.getElementById('toggleModeBtn');
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('night');
+      toggleBtn.textContent = document.body.classList.contains('night') ? '☀️' : '🌙';
+    });
+
+    // Heart Animation
+    const heartBtn = document.getElementById('heartBtn');
+    heartBtn.addEventListener('click', function(e) {
+      let heart = document.createElement('div');
+      heart.className = 'floating-heart';
+      heart.textContent = '❤️';
+      heart.style.setProperty('--hrt-x', `${Math.random() * 240 - 120}px`);
+      document.body.appendChild(heart);
+      setTimeout(()=>heart.remove(), 2300);
+    });
+
+    // Music Player Controls
+    const audio = document.getElementById('bgAudio');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    let playing = false;
+    playPauseBtn.addEventListener('click', function() {
+      if(!playing){
+        audio.play();
+        playPauseBtn.textContent = 'Pause';
+      }else{
+        audio.pause();
+        playPauseBtn.textContent = 'Play';
+      }
+      playing = !playing;
+    });
+    window.addEventListener('blur', () => { if(playing) audio.pause(); });
+    audio.addEventListener('pause', () => { playPauseBtn.textContent = 'Play'; playing = false; });
+
+    // Responsive poem line hover for touch devices
+    if('ontouchstart' in window){
+      document.querySelectorAll('.poem-line').forEach(line => {
+        line.addEventListener('touchstart', ()=>{
+          line.style.background = '#ffb3c6';
+          setTimeout(()=>line.style.background = '', 600);
+        });
+      });
+    }
+  </script>
+</body>
+</html>
